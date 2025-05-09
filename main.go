@@ -7,8 +7,9 @@ import (
 func main() {
 	mux := http.NewServeMux()
 
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.NotFound(w, r)
+		http.ServeFile(w, r, "./static/index.html")
 	})
 
 	server := &http.Server{
